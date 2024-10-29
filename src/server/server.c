@@ -6,7 +6,7 @@
 /*   By: javjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:09:40 by javjimen          #+#    #+#             */
-/*   Updated: 2024/10/28 18:48:00 by javjimen         ###   ########.fr       */
+/*   Updated: 2024/10/29 17:29:17 by javjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,16 @@ int	main(int argc, char **argv)
 
 	(void)argv;
 	if (argc != 1)
-	{
-		ft_putstr_fd("Wrong usage. Please try just: ./server\n", 2);
-		exit (EXIT_FAILURE);
-	}
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGUSR1);
-	sigaddset(&sa.sa_mask, SIGUSR2);
+		error_handler(wrong_usage_server);
+	if (sigemptyset(&sa.sa_mask) == -1 \
+		|| sigaddset(&sa.sa_mask, SIGUSR1) == -1 \
+		|| sigaddset(&sa.sa_mask, SIGUSR2) == -1)
+		error_handler(signal_mask_error);
 	sa.sa_sigaction = &receive_bit;
 	sa.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
+	if (sigaction(SIGUSR1, &sa, NULL) == -1 \
+		|| sigaction(SIGUSR2, &sa, NULL) == -1)
+		error_handler(sigaction_error);
 	ft_printf("Server PID: %d\n", getpid());
 	while (1)
 		pause();
