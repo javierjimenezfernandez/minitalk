@@ -6,7 +6,7 @@
 /*   By: javjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:10:55 by javjimen          #+#    #+#             */
-/*   Updated: 2024/10/31 12:33:25 by javjimen         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:59:01 by javjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <unistd.h>
 # include <signal.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include "libft.h"
 # include "ft_printf.h"
 
