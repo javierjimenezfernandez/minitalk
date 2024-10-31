@@ -6,7 +6,7 @@
 #    By: javjimen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/21 23:21:14 by javjimen          #+#    #+#              #
-#    Updated: 2024/10/17 14:11:23 by javjimen         ###   ########.fr        #
+#    Updated: 2024/10/29 17:05:05 by javjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,14 +25,17 @@ LIBFT		= $(LIBFT_PATH)/libft.a
 SRC_DIR		= src/
 CLIENT_DIR	= client/
 SERVER_DIR	= server/
+UTILS_DIR	= utils/
 CLIENT_SRC	= $(addprefix $(SRC_DIR), $(addprefix $(CLIENT_DIR), client.c))
 SERVER_SRC	= $(addprefix $(SRC_DIR), $(addprefix $(SERVER_DIR), server.c))
-SRC			= $(CLIENT_SRC) $(SERVER_SRC)
+UTILS_SRC	= $(addprefix $(SRC_DIR), $(addprefix $(UTILS_DIR), error_handler.c))
+SRC			= $(CLIENT_SRC) $(SERVER_SRC) $(UTILS_SRC)
 
 # List of object files
 OBJ_DIR		= obj/
 CLIENT_OBJ	= $(CLIENT_SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 SERVER_OBJ	= $(SERVER_SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+UTILS_OBJ	= $(UTILS_SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 # List of header files
 INC_DIR		= includes/
@@ -55,9 +58,9 @@ SANITIZE	= $(CFLAGS) -fsanitize=address
 all: 		$(NAME)
 
 # Make rules
-$(NAME):	$(LIBFT) $(CLIENT_OBJ) $(SERVER_OBJ) $(INLCUDES)
-			$(CC) $(CFLAGS) $(CLIENT_OBJ) -o $(CLIENT) $(LIBFT)
-			$(CC) $(CFLAGS) $(SERVER_OBJ) -o $(SERVER) $(LIBFT)
+$(NAME):	$(LIBFT) $(CLIENT_OBJ) $(SERVER_OBJ) $(UTILS_OBJ) $(INLCUDES)
+			$(CC) $(CFLAGS) $(CLIENT_OBJ) $(UTILS_OBJ) -o $(CLIENT) $(LIBFT)
+			$(CC) $(CFLAGS) $(SERVER_OBJ) $(UTILS_OBJ) -o $(SERVER) $(LIBFT)
 
 $(LIBFT):
 			make -C $(LIBFT_PATH) all
@@ -77,6 +80,6 @@ fclean:		clean
 
 re:			fclean all
 
-sanitize:	$(LIBFT) $(CLIENT_OBJ) $(SERVER_OBJ) $(INLCUDES)
-			$(CC) $(SANITIZE) $(CLIENT_OBJ) -o $(CLIENT) $(LIBFT)
-			$(CC) $(SANITIZE) $(SERVER_OBJ) -o $(SERVER) $(LIBFT)
+sanitize:	$(LIBFT) $(CLIENT_OBJ) $(SERVER_OBJ) $(UTILS_OBJ) $(INLCUDES)
+			$(CC) $(SANITIZE) $(CLIENT_OBJ) $(UTILS_OBJ) -o $(CLIENT) $(LIBFT)
+			$(CC) $(SANITIZE) $(SERVER_OBJ) $(UTILS_OBJ) -o $(SERVER) $(LIBFT)
