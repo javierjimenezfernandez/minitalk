@@ -6,7 +6,7 @@
 /*   By: javjimen <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:09:40 by javjimen          #+#    #+#             */
-/*   Updated: 2024/10/29 17:29:17 by javjimen         ###   ########.fr       */
+/*   Updated: 2024/10/31 12:32:49 by javjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ void	receive_bit(int signum, siginfo_t *info, void *ucontext)
 	if (bit_count == 8)
 	{
 		write(1, &character, 1);
+		if (character == '\0')
+			write(1, "\n", 1);
 		bit_count = 0;
 		character = 0;
 	}
+	if (kill(client_pid, SIGUSR2) == -1)
+		error_handler(sending_signal_error);
 }
 
 int	main(int argc, char **argv)
