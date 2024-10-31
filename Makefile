@@ -6,7 +6,7 @@
 #    By: javjimen <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/21 23:21:14 by javjimen          #+#    #+#              #
-#    Updated: 2024/10/29 17:05:05 by javjimen         ###   ########.fr        #
+#    Updated: 2024/10/31 12:18:52 by javjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,8 +66,12 @@ SANITIZE	= $(CFLAGS) -fsanitize=address
 all: 		$(NAME)
 
 # Make rules
-$(NAME):	$(LIBFT) $(CLIENT_OBJ) $(SERVER_OBJ) $(UTILS_OBJ) $(INLCUDES)
+$(NAME):	$(CLIENT) $(SERVER)
+
+$(CLIENT):	$(LIBFT) $(CLIENT_OBJ) $(UTILS_OBJ) $(INLCUDES)
 			$(CC) $(CFLAGS) $(CLIENT_OBJ) $(UTILS_OBJ) -o $(CLIENT) $(LIBFT)
+
+$(SERVER):	$(LIBFT) $(SERVER_OBJ) $(UTILS_OBJ) $(INLCUDES)
 			$(CC) $(CFLAGS) $(SERVER_OBJ) $(UTILS_OBJ) -o $(SERVER) $(LIBFT)
 
 $(LIBFT):
@@ -92,8 +96,12 @@ sanitize:	$(LIBFT) $(CLIENT_OBJ) $(SERVER_OBJ) $(UTILS_OBJ) $(INLCUDES)
 			$(CC) $(SANITIZE) $(CLIENT_OBJ) $(UTILS_OBJ) -o $(CLIENT) $(LIBFT)
 			$(CC) $(SANITIZE) $(SERVER_OBJ) $(UTILS_OBJ) -o $(SERVER) $(LIBFT)
 
-bonus:		$(LIBFT) $(CL_BON_OBJ) $(SR_BON_OBJ) $(UT_BON_OBJ) $(BONUS_INC)
+bonus:		bonus_$(CLIENT) bonus_$(SERVER)
+
+bonus_$(CLIENT):	$(LIBFT) $(CL_BON_OBJ) $(UT_BON_OBJ) $(BONUS_INC)
 			$(CC) $(CFLAGS) $(CL_BON_OBJ) $(UT_BON_OBJ) -o $(CLIENT) $(LIBFT)
+
+bonus_$(SERVER):	$(LIBFT) $(SR_BON_OBJ) $(UT_BON_OBJ) $(BONUS_INC)
 			$(CC) $(CFLAGS) $(SR_BON_OBJ) $(UT_BON_OBJ) -o $(SERVER) $(LIBFT)
 
 bonus_sanitize:	$(LIBFT) $(CL_BON_OBJ) $(SR_BON_OBJ) $(UT_BON_OBJ) $(INLCUDES)
